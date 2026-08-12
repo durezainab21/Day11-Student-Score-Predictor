@@ -1,17 +1,19 @@
 # 🎓 Student Score Predictor
 
-A machine learning desktop application that predicts a student's score based on the number of study hours.
+A simple Machine Learning desktop application that predicts a student's score based on the number of study hours.
 
-## 🚀 Features
+The application uses **Linear Regression** to analyze the relationship between study hours and student scores and provides an easy-to-use graphical interface built with **Tkinter**.
 
-* Enter daily study hours
-* Predict student score using Machine Learning
-* Linear Regression model
-* Beautiful desktop GUI
-* Input validation
-* Prediction progress bar
-* Performance feedback
-* Reset functionality
+## ✨ Features
+
+* 📚 Enter daily study hours
+* 🤖 Predict student score using Linear Regression
+* 📊 Display predicted score as a percentage
+* 📈 Visual progress bar
+* 💬 Performance-based feedback
+* 🔄 Reset prediction
+* ⚠️ Input validation
+* 🎨 Modern dark-themed GUI
 
 ## 🛠️ Technologies Used
 
@@ -20,26 +22,42 @@ A machine learning desktop application that predicts a student's score based on 
 * Scikit-learn
 * Tkinter
 * Linear Regression
+* CSV Dataset
 
-## 📊 Dataset
+## 📁 Project Structure
 
-The application uses a simple dataset containing:
+```text
+Day11-Student-Score-Predictor/
+│
+├── app.py
+├── student_scores.csv
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
 
-* Study Hours
-* Student Score
+## 🧠 Machine Learning Model
 
-## ▶️ How to Run
+The project uses **Linear Regression**.
+
+* **Input:** Study Hours
+* **Output:** Predicted Score
+* **Model:** Linear Regression
+
+The model is trained using the `student_scores.csv` dataset.
+
+## 🚀 How to Run
 
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/durezainab21/Day11-Student-Score-Predictor.git
 ```
 
 ### 2. Open the project
 
 ```bash
-cd Day11_Student_Score_Predictor
+cd Day11-Student-Score-Predictor
 ```
 
 ### 3. Install dependencies
@@ -54,12 +72,34 @@ pip install -r requirements.txt
 python app.py
 ```
 
-## 🎯 Expected Result
+## 📊 Example
 
-Users enter their study hours and the application predicts their expected score using a trained Linear Regression model.
+Enter the number of study hours, such as:
 
-## 📌 Project Type
+```text
+Study Hours: 5
+```
 
-Day 11 – Machine Learning Internship Task
+The application will calculate and display the predicted student score.
 
-**Topic:** Student Score Prediction
+## 🎯 Learning Outcomes
+
+Through this project, I practiced:
+
+* Loading datasets with Pandas
+* Preparing data for Machine Learning
+* Training a Linear Regression model
+* Making predictions with Scikit-learn
+* Building a GUI using Tkinter
+* Validating user input
+* Organizing a Python project professionally
+
+## 👩‍💻 Author
+
+**Dur e Zainab**
+
+BS Computer Science Student
+
+---
+
+⭐ Developed as part of my AI/ML Internship learning journey.

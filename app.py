@@ -1,47 +1,87 @@
+# ============================================================
+# Student Score Predictor
+# Day 12 - Project Improvement
+# ============================================================
+# This application predicts a student's score based on the
+# number of study hours using a Linear Regression model.
+# ============================================================
+
+
+# ============================================================
+# IMPORT LIBRARIES
+# ============================================================
 
 import tkinter as tk
 from tkinter import messagebox
+
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 
 
-# ==========================================
-# LOAD DATASET & TRAIN MODEL
-# ==========================================
+# ============================================================
+# LOAD DATASET
+# ============================================================
 
+# Read the student dataset from the CSV file.
 data = pd.read_csv("student_scores.csv")
 
+
+# ============================================================
+# PREPARE DATA FOR MACHINE LEARNING
+# ============================================================
+
+# StudyHours is used as the input feature.
 X = data[["StudyHours"]]
+
+# Score is used as the target/output value.
 y = data["Score"]
 
+
+# ============================================================
+# TRAIN LINEAR REGRESSION MODEL
+# ============================================================
+
+# Create the Linear Regression model.
 model = LinearRegression()
+
+# Train the model using the dataset.
 model.fit(X, y)
 
 
-# ==========================================
-# COLORS
-# ==========================================
+# ============================================================
+# APPLICATION COLORS
+# ============================================================
 
 BG_COLOR = "#0F172A"
 CARD_COLOR = "#1E293B"
 INPUT_COLOR = "#334155"
+
 PRIMARY = "#8B5CF6"
 PRIMARY_DARK = "#7C3AED"
+
 WHITE = "#FFFFFF"
 LIGHT_TEXT = "#CBD5E1"
 MUTED_TEXT = "#94A3B8"
+
 SUCCESS = "#22C55E"
+WARNING = "#FACC15"
+ORANGE = "#FB923C"
 
 
-# ==========================================
-# FUNCTIONS
-# ==========================================
+# ============================================================
+# PREDICT SCORE FUNCTION
+# ============================================================
 
 def predict_score():
+    """
+    Get study hours from the user and predict the student's score.
+    """
 
     try:
+        # Get the value entered in the input box.
         hours = float(hours_entry.get())
 
+        # Validate study hours.
         if hours < 0 or hours > 24:
             messagebox.showwarning(
                 "Invalid Study Hours",
@@ -49,19 +89,25 @@ def predict_score():
             )
             return
 
+        # Generate prediction using the trained model.
         prediction = model.predict([[hours]])[0]
 
+        # Keep the predicted score between 0 and 100.
         prediction = max(0, min(100, prediction))
 
+        # Display the predicted score.
         score_label.config(
             text=f"{prediction:.1f}%",
             fg=SUCCESS
         )
 
+        # Calculate progress bar width.
         progress_width = int(prediction * 3.2)
 
+        # Remove the previous progress bar.
         progress_canvas.delete("progress")
 
+        # Draw the updated progress bar.
         progress_canvas.create_rectangle(
             0,
             0,
@@ -72,6 +118,7 @@ def predict_score():
             tags="progress"
         )
 
+        # Display a message based on the predicted score.
         if prediction >= 80:
 
             message_label.config(
@@ -83,60 +130,78 @@ def predict_score():
 
             message_label.config(
                 text="👍 Good job! Keep improving!",
-                fg="#FACC15"
+                fg=WARNING
             )
 
         else:
 
             message_label.config(
                 text="📚 Try studying a little more!",
-                fg="#FB923C"
+                fg=ORANGE
             )
 
     except ValueError:
 
+        # Show an error if the user enters non-numeric data.
         messagebox.showerror(
             "Invalid Input",
             "Please enter a valid number."
         )
 
 
-def reset():
+# ============================================================
+# RESET FUNCTION
+# ============================================================
 
+def reset():
+    """
+    Reset the application to its default state.
+    """
+
+    # Clear the input field.
     hours_entry.delete(0, tk.END)
+
+    # Set the default study hours.
     hours_entry.insert(0, "5")
 
+    # Reset the score display.
     score_label.config(
         text="--",
         fg=PRIMARY
     )
 
+    # Reset the message.
     message_label.config(
         text="Enter study hours and predict your score",
         fg=MUTED_TEXT
     )
 
+    # Clear the progress bar.
     progress_canvas.delete("progress")
 
 
-# ==========================================
-# MAIN WINDOW
-# ==========================================
+# ============================================================
+# MAIN APPLICATION WINDOW
+# ============================================================
 
 root = tk.Tk()
 
+# Set the application title.
 root.title("Student Score Predictor")
 
+# Set window size.
 root.geometry("700x750")
 
+# Prevent window resizing.
 root.resizable(False, False)
 
+# Set the main background color.
 root.configure(bg=BG_COLOR)
 
 
-# ==========================================
-# HEADER
-# ==========================================
+# ============================================================
+# HEADER SECTION
+# ============================================================
 
 header = tk.Frame(
     root,
@@ -149,6 +214,7 @@ header.pack(
 )
 
 
+# Application title.
 title = tk.Label(
     header,
     text="🎓 Student Score Predictor",
@@ -160,6 +226,7 @@ title = tk.Label(
 title.pack()
 
 
+# Application subtitle.
 subtitle = tk.Label(
     header,
     text="AI-powered student performance prediction",
@@ -168,12 +235,14 @@ subtitle = tk.Label(
     fg=LIGHT_TEXT
 )
 
-subtitle.pack(pady=(8, 0))
+subtitle.pack(
+    pady=(8, 0)
+)
 
 
-# ==========================================
+# ============================================================
 # MAIN CARD
-# ==========================================
+# ============================================================
 
 card = tk.Frame(
     root,
@@ -187,12 +256,13 @@ card.pack(
     pady=25
 )
 
+# Prevent the frame from changing its fixed size.
 card.pack_propagate(False)
 
 
-# ==========================================
+# ============================================================
 # INPUT SECTION
-# ==========================================
+# ============================================================
 
 input_title = tk.Label(
     card,
@@ -202,7 +272,9 @@ input_title = tk.Label(
     fg=WHITE
 )
 
-input_title.pack(pady=(35, 8))
+input_title.pack(
+    pady=(35, 8)
+)
 
 
 input_hint = tk.Label(
@@ -216,9 +288,9 @@ input_hint = tk.Label(
 input_hint.pack()
 
 
-# ==========================================
-# INPUT BOX
-# ==========================================
+# ============================================================
+# STUDY HOURS INPUT
+# ============================================================
 
 hours_entry = tk.Entry(
     card,
@@ -237,22 +309,27 @@ hours_entry.pack(
     pady=18
 )
 
+# Set the default study hours.
 hours_entry.insert(0, "5")
 
 
-# ==========================================
-# BUTTON FRAME
-# ==========================================
+# ============================================================
+# BUTTON SECTION
+# ============================================================
 
 button_frame = tk.Frame(
     card,
     bg=CARD_COLOR
 )
 
-button_frame.pack(pady=5)
+button_frame.pack(
+    pady=5
+)
 
 
+# ------------------------------------------------------------
 # Predict Button
+# ------------------------------------------------------------
 
 predict_button = tk.Button(
     button_frame,
@@ -276,7 +353,9 @@ predict_button.pack(
 )
 
 
+# ------------------------------------------------------------
 # Reset Button
+# ------------------------------------------------------------
 
 reset_button = tk.Button(
     button_frame,
@@ -300,9 +379,9 @@ reset_button.pack(
 )
 
 
-# ==========================================
+# ============================================================
 # RESULT SECTION
-# ==========================================
+# ============================================================
 
 result_label = tk.Label(
     card,
@@ -317,6 +396,7 @@ result_label.pack(
 )
 
 
+# Display predicted score.
 score_label = tk.Label(
     card,
     text="--",
@@ -328,9 +408,9 @@ score_label = tk.Label(
 score_label.pack()
 
 
-# ==========================================
+# ============================================================
 # PROGRESS BAR
-# ==========================================
+# ============================================================
 
 progress_canvas = tk.Canvas(
     card,
@@ -345,9 +425,9 @@ progress_canvas.pack(
 )
 
 
-# ==========================================
-# MESSAGE
-# ==========================================
+# ============================================================
+# RESULT MESSAGE
+# ============================================================
 
 message_label = tk.Label(
     card,
@@ -362,9 +442,9 @@ message_label.pack(
 )
 
 
-# ==========================================
+# ============================================================
 # MODEL INFORMATION
-# ==========================================
+# ============================================================
 
 model_info = tk.Label(
     card,
@@ -379,9 +459,9 @@ model_info.pack(
 )
 
 
-# ==========================================
+# ============================================================
 # FOOTER
-# ==========================================
+# ============================================================
 
 footer = tk.Label(
     root,
@@ -396,8 +476,8 @@ footer.pack(
 )
 
 
-# ==========================================
+# ============================================================
 # START APPLICATION
-# ==========================================
+# ============================================================
 
 root.mainloop()
